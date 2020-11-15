@@ -1,0 +1,93 @@
+# depslib dependency file v1.0
+1605371765 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\pruebatpfinal.c
+	"AlumnoMago.h"
+	"Profesor.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	"pila.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	<windows.h>
+
+1491400450 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1490112217 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\pila.c
+	"pila.h"
+
+1490112217 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\pila.h
+	<stdio.h>
+	<malloc.h>
+
+1605371735 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\alumnomago.c
+	"AlumnoMago.h"
+	"ArbolPreguntas.h"
+	"Profesor.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	"pila.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	<pthread.h>
+	<windows.h>
+	<windowsx.h>
+
+1605371381 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\alumnomago.h
+
+1491399896 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\gotoxy.h
+
+1603335626 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\menues.c
+	"Menues.h"
+	"AlumnoMago.h"
+	"Profesor.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	"pila.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	<windows.h>
+
+1603373812 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\menues.h
+
+1603375115 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\profesor.c
+	"AlumnoMago.h"
+	"Profesor.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	"pila.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+
+1603327711 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\profesor.h
+
+1604119015 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\arbolpreguntas.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"AlumnoMago.h"
+
+1605322576 source:c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\arbolpreguntas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ArbolPreguntas.h"
+	"AlumnoMago.h"
+	<time.h>
+	<unistd.h>
+	<windows.h>
+
+1604526555 c:\facu\2 cuatrimestre\laboratorio ii\pruebatpfinal\dos.h
+	<_mingw.h>
+	<stddef.h>
+	<io.h>
+
