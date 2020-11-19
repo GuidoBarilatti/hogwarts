@@ -39,22 +39,17 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ArbolPreguntas.h" />
-		<Unit filename="Profesor.c">
+		<Unit filename="Profesores.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Profesor.h" />
+		<Unit filename="Profesores.h" />
 		<Unit filename="PruebaTpFinal.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="dos.h" />
 		<Unit filename="gotoxy.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="gotoxy.h" />
-		<Unit filename="pila.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="pila.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

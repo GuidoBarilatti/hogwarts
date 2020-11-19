@@ -91,3 +91,92 @@
 	<stddef.h>
 	<io.h>
 
+1605710957 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\alumnomago.c
+	"AlumnoMago.h"
+	"ArbolPreguntas.h"
+	"Profesores.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	<pthread.h>
+	<windows.h>
+	<windowsx.h>
+
+1605678415 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\alumnomago.h
+	"Profesores.h"
+
+1605632460 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\arbolpreguntas.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"AlumnoMago.h"
+
+1603327711 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\profesor.h
+
+1491399896 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\gotoxy.h
+
+1490112217 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\pila.h
+	<stdio.h>
+	<malloc.h>
+
+1605708612 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\arbolpreguntas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ArbolPreguntas.h"
+	"AlumnoMago.h"
+	<time.h>
+	<unistd.h>
+	<windows.h>
+	<windowsx.h>
+
+1491400450 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1490112217 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\pila.c
+	"pila.h"
+
+1603375115 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\profesor.c
+	"AlumnoMago.h"
+	"Profesor.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	"pila.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+
+1605713165 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\pruebatpfinal.c
+	"AlumnoMago.h"
+	"Profesores.h"
+	"ArbolPreguntas.h"
+	<stdio.h>
+	<stdlib.h>
+	"gotoxy.h"
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	<windows.h>
+
+1605709473 source:c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\profesores.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<windows.h>
+	"Profesores.h"
+	"gotoxy.h"
+
+1605676929 c:\facu\2 cuatrimestre\laboratorio ii\hogwarts\profesores.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"AlumnoMago.h"
+

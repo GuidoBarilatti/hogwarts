@@ -1,16 +1,18 @@
 #include "AlumnoMago.h"
-#include "Profesor.h"
+#include "Profesores.h"
+#include "ArbolPreguntas.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "gotoxy.h"
-#include "pila.h"
 #include <string.h>
 #include <ctype.h>
 #include <conio.h>
 #include <windows.h>
 
 
-
+stMateria arregloDeMaterias[14];
+nodoAlumno *listaAlumno;
+nodoProfesor *listaProfesor;
 
 ///////////////////////////////FUNCIONES//////////////////////////////////////////
 
@@ -18,12 +20,13 @@
 
 void Menu_Principal();
 void Menu_Registro();
-void Puntitos_Suspensivos();
 void Stop_And_Clean();
 void Iniciar_Sesion();
-void Menu_Alumno(stAlumno alumno);
+void Menu_Alumno();
+void menuProfesor(stProfesor profe);
 void Mensajito();
 void Opciones_Alumnos();
+void Menu_Fenix();
 
 //FUNCIONES TIPO INT
 
@@ -33,12 +36,10 @@ int Escaneo_De_Sesion(int flag, stAlumno *A, stProfesor *P);
 
 int main()
 {
-
-  //  Cargar_Archivo_Alumnos();
-    //Cargar_Archivo_Materias();
+    inicializarListaDeArregloMateria(arregloDeMaterias,14);
+    Crear_Archivo_Profesor();
+    Crear_Archivo_Alumno();
     Menu_Principal();
-    Mostrar_Archivo_Alumno();
-    Mostrar_Archivo_Profesor();
     return 0;
 }
 
@@ -47,23 +48,25 @@ int main()
 
 void Menu_Principal() //Muestra el menu principal donde el usuario podra registrar un usuario nuevo o iniciar sesion
 {
-     nodoAlumno *listaAlumno=Inic_Lista();
-    listaAlumno=Cargar_Lista_Alumno_Desde_Archivo("Archivo Alumnos",listaAlumno);
-   // printf("Bienvenido al magico fantastico campus del colegio Hogwarts de magia y hechiceria");
-    //Puntitos_Suspensivos();
-    //printf("Lo primero que debes hacer es crear un usuario, en caso de tener un usuario creado inicie sesion");
-    //Puntitos_Suspensivos();
+    listaAlumno=Inic_Lista();
+    listaAlumno=Cargar_Lista_Alumno_Desde_Archivo(listaAlumno);
+    listaProfesor=inicListaProfesores();
+    listaProfesor=pasarDeArchivoToListaProfesores(listaProfesor);
+    printf("Bienvenido al fantastico y magico campus del colegio Hogwarts de magia y hechiceria");
+    Puntitos_Suspensivos();
+    printf("Lo primero que debes hacer es crear un usuario, en caso de tener un usuario creado inicie sesion");
+    Puntitos_Suspensivos();
+    printf("\n\n");
+    Stop_And_Clean();
     int op=0,salida=13;
-
     while(salida!=14)
     {
-        Stop_And_Clean();
-        gotoxy(47,1);
+        system("cls");
         color(01);
-        printf("MENU PRINCIPAL");
+        printf("\n\n\t----------------------------- BIENVENIDO AL CAMPUS VIRTUAL DE HOGWARTS -------------------------------\n\n\n\n");
         color(15);
-        gotoxy(0,4);
-        printf("[1] Soy usurario nuevo\n[2] Tengo un usuario creado\n[0] Salir\n");
+        printf("[1] Soy un nuevo usuario\n[2] Tengo un usuario registrado\n\n[0] Salir\n\n");
+        printf("Ingrese una opcion y luego presione ENTER/INTRO: ");
         fflush(stdin);
         scanf("%d",&op);
         switch(op)
@@ -71,10 +74,15 @@ void Menu_Principal() //Muestra el menu principal donde el usuario podra registr
         case 1:
             system("cls");
             Menu_Registro();
+
             break;
         case 2:
             system("cls");
             Iniciar_Sesion();
+            break;
+        case 1883:
+            system("cls");
+            Menu_Fenix();
             break;
         case 0:
             salida++;
@@ -90,22 +98,34 @@ void Menu_Principal() //Muestra el menu principal donde el usuario podra registr
 
 void Menu_Registro() //Menu donde el usuario podra registrarse como un usuario o como un profesor
 {
+    system("cls");
     gotoxy(47,1);
     color(01);
     printf("REGISTRO DE USUARIO");
     color(15);
     gotoxy(0,4);
-    printf("Quiere registrarse como un Estudiante o como un Profesor?\n[1] Estudiante\n[2] Profesor\n[0] Salir\n");
+    printf("Quiere registrarse como un Alumno o como un Profesor?\n[1] Alumno\n[2] Profesor\n\n[0] Salir\n\n");
+    printf("Ingrese una opcion y luego presione ENTER/INTRO: ");
     int op=0;
     fflush(stdin);
     scanf("%d",&op);
     switch(op)
     {
     case 1:
-        Cargar_Archivo_Alumnos(); //Carga a alumno nuevo en el archivo alumnos
+        system("cls");
+        Cargar_Archivo_Alumnos();//Carga a alumno nuevo en el archivo alumnos
         break;
     case 2:
-        Cargar_Archivo_Profesor(); //Carga al profesor nuevo en el archivo profesor
+        system("cls");
+        registroDeProfesores();
+        //Carga al profesor nuevo en el archivo profesor
+        break;
+    case 0:
+        system("cls");
+        break;
+    default:
+        printf("opcion Incorrecta.");
+        Sleep(1000);
         break;
     }
 
@@ -115,34 +135,51 @@ void Menu_Registro() //Menu donde el usuario podra registrarse como un usuario o
 
 void Iniciar_Sesion() // Permite al usuario, ya sea alumno o profesor, iniciar su sesion
 {
-    gotoxy(47,1);
-    color(01);
-    printf("INICIO DE SESION");
-    color(15);
-    gotoxy(0,4);
+    system("cls");
+
     stAlumno A;
     stProfesor P;
     int flag =0;
     char control='s';
     while(control=='s')
     {
+        gotoxy(47,1);
+        color(01);
+        printf("INICIO DE SESION");
+        color(15);
+        gotoxy(0,4);
         flag=Escaneo_De_Sesion(flag,&A,&P); //utiliza la funcion Escaneo De Sesion para controlar que el usuario exista
         if(flag==1) //En caso de que exista, y el valor retornado sea 1, se mostrara el menu  exclusivo para alumnos
         {
-            Menu_Alumno(A);
+            if(A.estado==0)
+            {
+                printf("\nDisculpe que sea el responsable de recordarle que usted fue expulsado del colegio Hogwarts de magia y hechiceria.\n");
+            }
+            else
+            {
+                Menu_Alumno(A);
+            }
             control='n';
         }
         else if(flag==2)//En caso de que exista, y el valor retornado sea 2, se mostrara el menu exclusivo para profesores
         {
-            printf("Hola, soy un profesore\n");
+            if(P.altaBaja==0)
+            {
+                printf("\nDisculpe que sea el responsable de recordarle que usted fue expulsado del colegio Hogwarts de magia y hechiceria.\n");
+            }
+            else
+            {
+                menuProfesor(P);
+            }
             control='n';
         }
         else//En el caso de que no se encuentre, retornara un valor distinto a 1 o 2, y dara lugar a hacer otro intento
         {
-            printf("Hola, soy un espacio vacio porque no existo\n");
-            printf("Quiere intentarlo devuelta?\n");
+            printf("\nEl usuario y/o la contrasenia son incorrectos\n");
+            printf("Quiere intentarlo devuelta? S/N: ");
             fflush(stdin);
             scanf("%c",&control);
+            system("cls");
         }
     }
 }
@@ -154,17 +191,17 @@ int Escaneo_De_Sesion(int flag, stAlumno *A, stProfesor *P)//Verifica que exista
     stAlumno alumnoAux;
     stProfesor profesorAux;//Creo dos variables del tipo stProfesor y stAlumno para poder recorrer los archivos
     char nombreAux[30];//Uso la variable nombreaux para compararlo con los guardados en los archivos
-    printf("INICIAR SESION\n");
-    printf("Nombre: ");
+    printf("INICIAR SESION\n\n");
+    printf("Nombre de usuario: ");
     fflush(stdin);
     gets(nombreAux);
     FILE *Archi1=fopen("Archivo Alumnos","rb");
-    FILE *Archi2=fopen("Archivo Profesor","rb"); //abro ambos archivos en modo lectura
+    FILE *Archi2=fopen("archivoProfesores","rb"); //abro ambos archivos en modo lectura
     if(Archi1 && Archi2)//Si ambos se abrieron correctamente
     {
         while(fread(&alumnoAux,sizeof(stAlumno),1,Archi1)>0 && flag==0)//Primero recorro el archivo de alumnos hasta que no haya mas o se encuentre el nombre
         {
-            if(strcmpi(alumnoAux.nombre,nombreAux)==0)//Si se encuentra el nombre en la lista, se pide ingresar la contrasenia
+            if(strcmp(alumnoAux.usuario,nombreAux)==0)//Si se encuentra el nombre en la lista, se pide ingresar la contrasenia
             {
                 char contraseniaaux[30];
                 printf("Ingrese su contrasenia: ");
@@ -179,10 +216,10 @@ int Escaneo_De_Sesion(int flag, stAlumno *A, stProfesor *P)//Verifica que exista
         }
         while(fread(&profesorAux,sizeof(stProfesor),1,Archi2)>0 && flag==0)//Si no se encuentra el nombre en la lista de alumnos pasa a la lista de profesores
         {
-            if(strcmpi(profesorAux.nombre,nombreAux)==0)//Si encuentra el nombre en el archivo pide ingresar la contrasenia
+            if(strcmp(profesorAux.usuario,nombreAux)==0)//Si encuentra el nombre en el archivo pide ingresar la contrasenia
             {
                 char contraseniaaux[30];
-                printf("Ingrese su contrasenia: ");
+                printf("\nIngrese su contrasenia: ");
                 fflush(stdin);
                 gets(contraseniaaux);
                 if(strcmp(contraseniaaux,profesorAux.contrasenia)==0)//Si la contrasenia es la correcta
@@ -199,33 +236,33 @@ int Escaneo_De_Sesion(int flag, stAlumno *A, stProfesor *P)//Verifica que exista
         fclose(Archi1); //Cierro ambos archivos, no me acuerdo si era necesario cuando era solo lectura pero por las dudas lo hice
         fclose(Archi2);
     }
+    else
+        printf("ERROR\n");
     return flag;//Retorno flag que va a ser lo que identifique al usuario como profesor o alumno
 }
 
 //PUNTITOS SUSPENSIVOS
 
-void Puntitos_Suspensivos()// Genera un aura de misterio que mantendra al usuario espectante de cuales seran las siguientes palabras emitidas en pantalla
-{
-    printf(".");//Este puntito genera intriga
-    Sleep(500);
-    printf(".");//Este puntito genera incertidumbre
-    Sleep(500);
-    printf(".\n");//Este puntito genera una duda excistencial que hara que te replantees tu vida por completo
-    Sleep(500);
-}
 
-void Menu_Alumno(stAlumno alumno)
+
+void Menu_Alumno(stAlumno Alumno)
 {
+    nodoTrabajos *listaTrabajos=iniclistaTrabajos();
+    listaTrabajos=pasarDeArchivoToListaTrabajos(listaTrabajos,Alumno.anio);
+    listaAlumno=Cargar_Lista_Alumno_Desde_Archivo(listaAlumno);
     Mensajito();
-    system("cls");
-    gotoxy(47,1);
-    color(01);
-    printf("MENU ALUMNO");
-    color(15);
-    gotoxy(0,4);
+
     int control=13;
+
     while(control!=14)
     {
+        system("cls");
+        gotoxy(47,1);
+        color(01);
+        printf("MENU ALUMNO");
+        color(15);
+        gotoxy(0,4);
+        printf("Bienvenido/a %s\n\n",Alumno.nombre);
         printf("Que desea hacer?\n");
         Opciones_Alumnos();
         int op;
@@ -234,12 +271,29 @@ void Menu_Alumno(stAlumno alumno)
         switch(op)
         {
         case 1:
-            alumno.totalMaterias=Matricularse_En_Materia(&alumno);
+            system("cls");
+            Matricularse(&Alumno,listaAlumno);
+            Modificar_Archivo_Alumnos(Alumno);
+            Stop_And_Clean();
             break;
         case 2:
-            Mostrar_Materias_Matriculadas(alumno,alumno.totalMaterias);
+            system("cls");
+            Mostrar_Materias_Matriculadas(Alumno,Alumno.totalMaterias);
+            Stop_And_Clean();
+            break;
+        case 3:
+            system("cls");
+            Mostrar_Lista_De_Trabajos(Alumno,listaTrabajos);
+            Stop_And_Clean();
+            break;
+        case 4:
+            system("cls");
+            mostrarAvisos();
+            printf("\n\n");
+            Stop_And_Clean();
             break;
         case 0:
+            system("cls");
             control++;
             break;
         default:
@@ -250,12 +304,73 @@ void Menu_Alumno(stAlumno alumno)
 
 }
 
+void menuProfesor(stProfesor profe)
+{
+    nodoTrabajos *listaTrabajos=iniclistaTrabajos();
+    listaTrabajos=pasarDeArchivoToListaTrabajos(listaTrabajos,profe.anio);
+
+    nodoAlumno *listaAlumnos=Inic_Lista();
+    listaAlumnos=Cargar_Lista_Alumno_Desde_Archivo(listaAlumnos);
+
+    int corte = 0;
+    int opc;
+    while(corte == 0)
+    {
+        system("cls");
+        gotoxy(47,1);
+        color(01);
+        printf("MENU PROFESOR");
+        color(15);
+        gotoxy(0,4);
+        printf("\n\nBienvenido %s\n\n",profe.nombre);
+        printf("Que desea hacer?\n");
+        printf("[1]- Ver listado de alumnos\n[2]- Ver listados de trabajos\n[3]- Agregar trabajo practico\n[4] Ver avisos de Dumbledor\n\n[0]- Salir\n\n Ingrese el numero de opcion y presione enter: ");
+        scanf("%d",&opc);
+        switch(opc)
+        {
+        case 1:
+            system("cls");
+            Mostrar_Lista_Alumnos(listaAlumnos);
+            pauseAndClean();
+            break;
+        case 2:
+            system("cls");
+            mostrarListaTrabajos(listaTrabajos,profe.anio,profe.materia);
+            pauseAndClean();
+            break;
+        case 3:
+            system("cls");
+            cargarArchivoDeTrabajos(profe.anio,arregloDeMaterias,profe);
+            listaTrabajos=iniclistaTrabajos();
+            listaTrabajos=pasarDeArchivoToListaTrabajos(listaTrabajos,profe.anio);
+            pauseAndClean();
+            break;
+        case 4:
+            system("cls");
+            mostrarAvisos();
+            pauseAndClean();
+            break;
+        case 0:
+            system("cls");
+            corte++;
+            break;
+        default:
+            printf("La opcion elegida no valida. Por favor, ingrese una nuva opcion\n");
+            break;
+
+        }
+
+    }
+}
+
 void Opciones_Alumnos()
 {
     printf("[1] Matricularse en una materia\n");
     printf("[2] Ver materias cursadas\n");
-    printf("[2] Ver lista de trabajos\n");
-    printf("[0] Salir\n");
+    printf("[3] Ver lista de trabajos\n");
+    printf("[4] Ver avisos de Dumbledor\n\n");
+    printf("[0] Salir\n\n");
+    printf("Ingrese una opcion y luego presione ENTER/INTRO: ");
 }
 
 void Mensajito()
@@ -275,6 +390,7 @@ void Mensajito()
         printf("Como ya tienes experiencia te dejare solo");
         Puntitos_Suspensivos();
         printf("Solo por ahora\n");
+        Stop_And_Clean();
     }
 }
 
@@ -284,4 +400,81 @@ void Stop_And_Clean()// Pausa y limpia la pantalla
 {
     system("pause");
     system("cls");
+}
+
+void Mostrar_Lista_De_Trabajos(stAlumno Alumno,nodoTrabajos *lista)
+{
+    system("cls");
+    gotoxy(47,1);
+    color(01);
+    printf("MENU DE TRABAJOS");
+    color(15);
+    gotoxy(0,4);
+    printf("Los trabajos de que materia quiere ver?\n");
+    char materiaAux[50];
+    if(Alumno.anio==1)
+    {
+        menuMateriasPrimerAnio(materiaAux);
+    }
+    else if(Alumno.anio==2)
+    {
+        menuMateriasPrimerAnio(materiaAux);
+    }
+    else
+    {
+        menuMateriasTercerAnioEnAdelante(materiaAux);
+    }
+    system("cls");
+    gotoxy(47,1);
+    color(01);
+    printf("TRABAJOS A REALIZAR");
+    color(15);
+    gotoxy(0,4);
+    mostrarListaTrabajos(lista,Alumno.anio,materiaAux);
+}
+
+void Menu_Fenix()
+{
+    int corte = 0;
+    int opc;
+    while(corte == 0)
+    {
+        system("cls");
+        gotoxy(47,1);
+        color(01);
+        printf("MENU FENIX");
+        color(15);
+        gotoxy(0,4);
+        printf("\n\nBienvenido Profesor Dumbledor\n\n");
+        printf("[1]- Expulsar Alumno\n[2]- Expulsar Profesor\n[3]-Agregar un aviso para todo el colegio\n\n[0]- Salir\n\n Ingrese el numero de opcion y presione enter: ");
+        scanf("%d",&opc);
+        switch(opc)
+        {
+        case 1:
+            system("cls");
+            Expulsar_Alumno();
+            pauseAndClean();
+            break;
+        case 2:
+            system("cls");
+            expulsarProfesor();
+            pauseAndClean();
+            break;
+        case 3:
+            system("cls");
+            cargarAvisoAlArchivo();
+            pauseAndClean();
+            break;
+        case 0:
+            corte++;
+            system("cls");
+            break;
+        default:
+            printf("La opcion elegida no valida. Por favor, ingrese una nueva opcion\n");
+            system("cls");
+            break;
+
+        }
+
+    }
 }

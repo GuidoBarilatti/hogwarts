@@ -35,6 +35,6 @@ int sombreroSeleccionador(arbolDePreguntas * arbol);
 
 //Funciones que devuelven estructuras
 void lectorDeResultado(int resultado,char casa[]);
-
+void Puntitos_Suspensivos();
 
 #endif // ARBOLPREGUNTAS_H_INCLUDED
