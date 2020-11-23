@@ -39,7 +39,7 @@ stAlumno Crear_Alumno() //Crea una estructura alumno que es
     aux.genero=Cargar_Genero(); //Carga el genero
     aux.anio=Cargar_Anio(); //Carga el anio
     Cargar_Contrasenia(aux.contrasenia); //Carga la contrasenia
-    printf("Usted ya posee una casa asignada?\n");
+    printf("Usted ya posee una casa asignada? s/n\n");
     char respuesta;
     fflush(stdin);
     scanf("%c",&respuesta);
